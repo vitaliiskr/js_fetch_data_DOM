@@ -3,7 +3,7 @@
 const listUrl
   = 'https://mate-academy.github.io/phone-catalogue-static/api/phones.json';
 const detailsUrl
-  = 'https://mate-academy.github.io/phone-catalogue-static/api/phones/:';
+  = 'https://mate-academy.github.io/phone-catalogue-static/api/phones/';
 
 // write your code here
 function getPhones() {
@@ -17,28 +17,27 @@ function getPhones() {
   });
 };
 
-function getPhoneDetails(ids) {
-  return ids.map(id => fetch(`${detailsUrl}${id}.json`));
-}
-
 function renderPhones(phones) {
   const phonesList = document.createElement('ul');
 
   document.body.append(phonesList);
 
-  const ids = phones.map(phone => {
+  phones.map(phone => {
     const phoneElement = document.createElement('li');
 
     phoneElement.textContent = phone.name;
     phonesList.append(phoneElement);
-
-    return phone.id;
   });
 
-  return ids;
+  return phones;
+}
+
+function getPhoneDetails(ids) {
+  return ids.map(id => fetch(`${detailsUrl}${id}.json`));
 }
 
 getPhones()
   .then(renderPhones)
+  .then(phones => phones.map(phone => phone.id))
   .then(getPhoneDetails)
-  .catch(() => new Error());
+  .catch(() => new Error('something wrong'));
