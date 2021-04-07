@@ -22,7 +22,7 @@ function renderPhones(phones) {
 
   document.body.append(phonesList);
 
-  phones.map(phone => {
+  phones.forEach(phone => {
     const phoneElement = document.createElement('li');
 
     phoneElement.textContent = phone.name;
